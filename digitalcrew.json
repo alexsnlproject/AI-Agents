@@ -1,0 +1,27 @@
+{
+  "crew_name": "Digital Crew",
+  "version": "1.1",
+  "description": "Modular multi-agent system controlled via external JSON definitions.",
+  "agents_path": "https://raw.githubusercontent.com/alexsnlproject/AI-Agents/main/agents/",
+  "workflow": [
+    "Supervisor",
+    "Researcher",
+    "Analyst",
+    "Integrator",
+    "SyntaxMaster",
+    "Supervisor"
+  ],
+  "rules": {
+    "mode": "sequential",
+    "memory_sharing": true,
+    "quality_checks": true,
+    "max_rounds": 1
+  },
+  "agent_map": {
+    "Supervisor": "supervisor.json",
+    "Researcher": "research.json",
+    "Analyst": "analysis.json",
+    "Integrator": "synthesis.json",
+    "SyntaxMaster": "syntax.json"
+  }
+}
