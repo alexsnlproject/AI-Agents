@@ -1,27 +1,69 @@
-{
-  "crew_name": "Digital Crew",
-  "version": "1.1",
-  "description": "Modular multi-agent system controlled via external JSON definitions.",
-  "agents_path": "https://raw.githubusercontent.com/alexsnlproject/AI-Agents/main/agents/",
-  "workflow": [
-    "Supervisor",
-    "Researcher",
-    "Analyst",
-    "Integrator",
-    "SyntaxMaster",
-    "Supervisor"
-  ],
-  "rules": {
-    "mode": "sequential",
-    "memory_sharing": true,
-    "quality_checks": true,
-    "max_rounds": 1
-  },
-  "agent_map": {
-    "Supervisor": "supervisor.json",
-    "Researcher": "research.json",
-    "Analyst": "analysis.json",
-    "Integrator": "synthesis.json",
-    "SyntaxMaster": "syntax.json"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Secure P2P Chat – Identity</title>
+
+<style>
+body {
+  background:#0b0f14;
+  color:#eaeaea;
+  font-family: monospace;
+  padding:40px;
+}
+textarea, button {
+  width:100%;
+  margin-top:10px;
+  background:#111;
+  color:#0f0;
+  border:1px solid #333;
+  padding:10px;
+}
+button { cursor:pointer; }
+</style>
+</head>
+
+<body>
+
+<h2>🔐 Identity Generator</h2>
+<p>Public key = your identity. Share it manually.</p>
+
+<button onclick="generate()">Generate Identity</button>
+
+<textarea id="pub" rows="5" placeholder="Public Key"></textarea>
+
+<script>
+async function generate() {
+  try {
+    const keyPair = await crypto.subtle.generateKey(
+      {
+        name: "ECDH",
+        namedCurve: "P-256"
+      },
+      true,
+      ["deriveKey"]
+    );
+
+    const rawPub = await crypto.subtle.exportKey(
+      "raw",
+      keyPair.publicKey
+    );
+
+    const pubB64 = btoa(
+      String.fromCharCode(...new Uint8Array(rawPub))
+    );
+
+    document.getElementById("pub").value = pubB64;
+
+    // private key stays only in memory
+    window._privateKey = keyPair.privateKey;
+
+  } catch (err) {
+    alert("Key generation failed: " + err.message);
+    console.error(err);
   }
 }
+</script>
+
+</body>
+</html>
